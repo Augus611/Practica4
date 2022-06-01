@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,8 +12,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    const String _title ='Práctica 4';
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: _title,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -22,9 +27,13 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/login',
+      routes: <String, WidgetBuilder> {
+        '/': (context) => const MyHomePage(title: _title),
+        '/login' : (context) => const LogIn(),
+      }
     );
   }
 }
@@ -96,8 +105,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'Apretaste el botón\nesta cantidad de veces:',
+              textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 10),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
@@ -107,9 +118,120 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'Incrementar',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class LogIn extends StatelessWidget {
+  const LogIn({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: const Text('Iniciar Sesión'),
+      ),
+      body: Container(
+        child: Align(
+          alignment: const Alignment(0,-0.5),
+          child: SizedBox(
+            width: 333,
+            height: 484,
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                children: [
+                  Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(10),
+                          child: const Text(
+                            'Práctica 4',
+                            style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 30),
+                          )),
+                      Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(10),
+                          child: const Text(
+                            'Iniciar Sesión',
+                            style: TextStyle(fontSize: 20),
+                          )),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: const TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Nombre de usuario',
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: const TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Password',
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          //forgot password screen
+                        },
+                        child: const Text('Olvidé la contraseña',),
+                      ),
+                      Container(
+                          height: 50,
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: ElevatedButton(
+                            child: const Text('Iniciar Sesión'),
+                            onPressed: () {
+                              //TODO: iniciar sesion
+                            },
+                          )
+                      ),
+                      Row(
+                        children: <Widget>[
+                          const Text('¿No tenés una cuenta?'),
+                          TextButton(
+                            child: const Text(
+                              'Crear cuenta',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              //signup screen
+                            },
+                          )
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                    ],
+                  ))
+                ]
+              ),
+
+            ),
+          ),
+        ),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background.gif'),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
 }
