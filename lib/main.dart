@@ -29,11 +29,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.deepPurple,
       ),
-      initialRoute: '/login',
-      routes: <String, WidgetBuilder> {
-        '/': (context) => const MyHomePage(title: _title),
-        '/login' : (context) => const LogIn(),
-      }
+      home: const LogIn(),
     );
   }
 }
@@ -133,7 +129,7 @@ class LogIn extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Iniciar Sesión'),
+        title: const Text('Práctica 4'),
       ),
       body: Container(
         child: Align(
@@ -181,7 +177,7 @@ class LogIn extends StatelessWidget {
                           obscureText: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Password',
+                            labelText: 'Contraseña',
                           ),
                         ),
                       ),
@@ -193,11 +189,15 @@ class LogIn extends StatelessWidget {
                       ),
                       Container(
                           height: 50,
+                          width: double.infinity,
                           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: ElevatedButton(
                             child: const Text('Iniciar Sesión'),
                             onPressed: () {
-                              //TODO: iniciar sesion
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Carrito')),
+                              );
                             },
                           )
                       ),
