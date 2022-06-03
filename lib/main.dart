@@ -121,8 +121,27 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class LogIn extends StatelessWidget {
+class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _LogInState();
+
+}
+
+class _LogInState extends State<LogIn> {
+
+  final _controllerContrasena = TextEditingController();
+  final _controllerUsuario = TextEditingController();
+  bool _submitted = false;
+  bool _isObscure = true;
+
+  @override
+  void dispose() {
+    _controllerContrasena.dispose();
+    _controllerUsuario.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,21 +183,45 @@ class LogIn extends StatelessWidget {
                           )),
                       Container(
                         padding: const EdgeInsets.all(10),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Nombre de usuario',
-                          ),
+                        child: ValueListenableBuilder(
+                          valueListenable: _controllerUsuario,
+                          builder: (context, value, _) {
+                            return TextField(
+                              controller: _controllerUsuario,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: 'Nombre de Usuario',
+                                errorText: _submitted ? _textoErrorUsuario : null,
+                              ),
+                            );
+                          }
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        child: const TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Contraseña',
-                          ),
+                        child: ValueListenableBuilder(
+                          valueListenable: _controllerContrasena,
+                          builder: (context, value, _) {
+                            return TextField(
+                              controller: _controllerContrasena,
+                              obscureText: _isObscure,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: 'Contraseña',
+                                errorText: _submitted ? _textoErrorContrasena : null,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _isObscure ? Icons.visibility : Icons.visibility_off),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                )
+                              ),
+                            );
+                          }
                         ),
                       ),
                       TextButton(
@@ -193,12 +236,7 @@ class LogIn extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: ElevatedButton(
                             child: const Text('Iniciar Sesión'),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Carrito')),
-                              );
-                            },
+                            onPressed: _iniciarSesion,
                           )
                       ),
                       Row(
@@ -232,6 +270,60 @@ class LogIn extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? get _textoErrorContrasena {
+    final text = _controllerContrasena.value.text;
+    if (text.isEmpty) {
+      return 'La contraseña no puede estar vacía.';
+    } else {
+      if (text.length < 7) {
+        return 'La contraseña debe tener 7 o más caracteres.';
+      }
+    }
+    return null;
+  }
+
+  String? get _textoErrorUsuario {
+    final text = _controllerUsuario.value.text;
+    if (text.isEmpty) {
+      return 'El usuario no puede estar vacío.';
+    } else {
+      if (!text.contains('@')) {
+        return 'El formato es inválido.';
+      }
+    }
+    return null;
+  }
+
+  void _iniciarSesion() {
+    final usuario = _controllerUsuario.value.text;
+    final contrasena = _controllerContrasena.value.text;
+    setState(() => _submitted = true);
+    if (_textoErrorUsuario == null && _textoErrorContrasena == null){
+      setState(() => _submitted = false);
+      if (usuario == 'moviles@utn' && contrasena == 'utn1234') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const MyHomePage(title: 'Carrito')),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Usuario o contraseña inválidos.'),
+            actions: [
+              TextButton(
+                child: const Text('Aceptar'),
+                onPressed: () => Navigator.pop(context),
+              )
+            ],
+          ),
+        );
+      }
+    }
   }
 
 }
