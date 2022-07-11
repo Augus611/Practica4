@@ -39,67 +39,67 @@ class _CarritoState extends State<Carrito> {
     [
       "Arándanos",
       "https://spoonacular.com/cdn/ingredients_250x250/blueberries.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Banana",
       "https://spoonacular.com/cdn/ingredients_250x250/bananas.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Cerezas",
       "https://spoonacular.com/cdn/ingredients_250x250/cherries.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Durazno",
       "https://spoonacular.com/cdn/ingredients_250x250/peaches.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Frambuesas",
       "https://spoonacular.com/cdn/ingredients_250x250/raspberries.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Frutillas",
       "https://spoonacular.com/cdn/ingredients_250x250/strawberries.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Kiwi",
       "https://spoonacular.com/cdn/ingredients_250x250/kiwis.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Limón",
       "https://spoonacular.com/cdn/ingredients_250x250/lemon.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Manzana",
       "https://spoonacular.com/cdn/ingredients_250x250/apple.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Naranja",
       "https://spoonacular.com/cdn/ingredients_250x250/orange.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Pera",
       "https://spoonacular.com/cdn/ingredients_250x250/pear.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Pomelo",
       "https://spoonacular.com/cdn/ingredients_250x250/grapefruit.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
     [
       "Sandía",
       "https://spoonacular.com/cdn/ingredients_250x250/watermelon.jpg",
-      "Detalle"
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     ],
   ];
   var _cantidadItems = 0;
@@ -190,6 +190,26 @@ class _CarritoState extends State<Carrito> {
                     )
                   ],
                 ),
+                onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(item[0]),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.network(item[1]),
+                              SizedBox(height: 20),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child:
+                                  Text(item[2]),
+                              )
+                            ],
+                          )
+                        )
+                    );
+                },
               ),
             );
           },
