@@ -38,63 +38,121 @@ class _CarritoState extends State<Carrito> {
   final List<List<String>> productos = [
     [
       "Arándanos",
-      "https://spoonacular.com/cdn/ingredients_250x250/blueberries.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/blueberries.jpg",
+      "Detalle"
     ],
     [
       "Banana",
-      "https://spoonacular.com/cdn/ingredients_250x250/bananas.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/bananas.jpg",
+      "Detalle"
     ],
     [
       "Cerezas",
-      "https://spoonacular.com/cdn/ingredients_250x250/cherries.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/cherries.jpg",
+      "Detalle"
     ],
     [
       "Durazno",
-      "https://spoonacular.com/cdn/ingredients_250x250/peaches.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/peaches.jpg",
+      "Detalle"
     ],
     [
       "Frambuesas",
-      "https://spoonacular.com/cdn/ingredients_250x250/raspberries.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/raspberries.jpg",
+      "Detalle"
     ],
     [
       "Frutillas",
-      "https://spoonacular.com/cdn/ingredients_250x250/strawberries.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/strawberries.jpg",
+      "Detalle"
     ],
     [
       "Kiwi",
-      "https://spoonacular.com/cdn/ingredients_250x250/kiwis.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/kiwis.jpg",
+      "Detalle"
     ],
     [
       "Limón",
-      "https://spoonacular.com/cdn/ingredients_250x250/lemon.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/lemon.jpg",
+      "Detalle"
     ],
     [
       "Manzana",
       "https://spoonacular.com/cdn/ingredients_250x250/apple.jpg",
+      "Detalle"
     ],
     [
       "Naranja",
-      "https://spoonacular.com/cdn/ingredients_250x250/orange.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/orange.jpg",
+      "Detalle"
     ],
     [
       "Pera",
-      "https://spoonacular.com/cdn/ingredients_250x250/pear.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/pear.jpg",
+      "Detalle"
     ],
     [
       "Pomelo",
-      "https://spoonacular.com/cdn/ingredients_250x250/grapefruit.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/grapefruit.jpg",
+      "Detalle"
     ],
     [
       "Sandía",
-      "https://spoonacular.com/cdn/ingredients_250x250/watermelon.jpg"
+      "https://spoonacular.com/cdn/ingredients_250x250/watermelon.jpg",
+      "Detalle"
     ],
   ];
+  var _cantidadItems = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: SizedBox(
+                height: 150.0,
+                width: 30.0,
+                child: GestureDetector(
+                  child: Stack(
+                    children: <Widget>[
+                      const IconButton(
+                        icon: Icon(
+                          Icons.shopping_cart,
+                          color: Colors.white,
+                        ),
+                        onPressed: null,
+                      ),
+                      productos.isEmpty
+                          ? Container()
+                          : Positioned(
+                          child: Stack(
+                            children: <Widget>[
+                              const Icon(Icons.brightness_1,
+                                  size: 20.0, color: Colors.deepPurpleAccent),
+                              Positioned(
+                                  top: 3.5,
+                                  right: _posicionContador,
+                                  child: Center(
+                                    child: Text(
+                                      _cantidadItems.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11.0,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  )),
+                            ],
+                          )),
+                    ],
+                  ),
+                )),
+          )
+        ],
+        title: Align(
+          child: Text(widget.title),
+        ),
       ),
       body: Center(
         child: ListView.builder(
@@ -102,24 +160,53 @@ class _CarritoState extends State<Carrito> {
           itemCount: productos.length,
           itemBuilder: (context, index) {
             final item = productos[index];
-            return ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 8,
+            return Dismissible(
+              direction: DismissDirection.endToStart,
+              key: UniqueKey(),
+              child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 8,
+                  ),
+                  leading: CircleAvatar(
+                    radius: 28,
+                    backgroundImage: NetworkImage(item[1]),
+                  ),
+                  title: Text(
+                      item[0]
+                  ),
+                trailing: Column(
+                  children: [
+                    SizedBox(
+                      child: IconButton(
+                        icon: const Icon(Icons.add_circle),
+                        color: Colors.deepPurpleAccent,
+                        onPressed: () {
+                          setState(() {
+                            _cantidadItems = _cantidadItems + 1;
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
-              leading: CircleAvatar(
-                radius: 28,
-                backgroundImage: NetworkImage(item[1]),
-              ),
-              title: Text(
-                item[0]
-              )
             );
           },
         )
       ),
     );
   }
+
+  get _posicionContador {
+    final cantidad = _cantidadItems;
+    if (cantidad < 10) {
+      return 5.5;
+    } else {
+      return 3.0;
+    }
+  }
+
 }
 
 class LogIn extends StatefulWidget {
